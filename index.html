@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Name</title>
+<meta name="description" content="Personal website of Your Name.">
+<meta name="theme-color" content="#f3f4ec">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Public+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script>document.documentElement.classList.add('js');try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar">
+  <a class="brand" href="index.html">Your Name</a>
+  <nav aria-label="Main">
+    <a href="index.html" aria-current="page">About</a>
+    <a href="projects.html">Projects</a>
+    <a href="cv.pdf">CV</a>
+    <button id="theme" type="button" class="plain">dark</button>
+  </nav>
+</header>
+
+<main id="main" class="page">
+  <section class="intro">
+    <div>
+      <h1><button id="hello" class="hello" type="button" title="Click to change">hello</button>, i am Your Name</h1>
+      <p class="native" lang="zh">你的名字</p>
+      <p class="links">
+        <a href="https://github.com/your-username">GitHub</a>
+        <a href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+        <a href="https://www.instagram.com/your-handle">Instagram</a>
+      </p>
+    </div>
+    <img class="avatar" src="img/profile.svg" alt="Portrait of Your Name" width="120" height="120">
+  </section>
+
+  <p class="lede" data-words>I'm a [year] [your field] student at [your university]. Currently [what you're up to this term]. This site is where I keep the things I've made and the things I'm still working out.</p>
+
+  <h2>Interests</h2>
+  <ul class="reveal">
+    <li>Your main interest, in <strong>bold</strong> for the key phrase</li>
+    <li>A second interest</li>
+    <li>A third interest</li>
+  </ul>
+
+  <h2>Browse by category</h2>
+  <p class="chips" id="cats"></p>
+
+  <h2>Highlighted projects</h2>
+  <div id="featured" class="rows"></div>
+  <p><a href="projects.html">See all projects</a></p>
+
+  <h2>Documents</h2>
+  <p class="links"><a href="cv.pdf">Curriculum vitae</a> <a href="transcript.pdf">Transcript</a></p>
+
+  <h2>Contact</h2>
+  <p>you at example.com</p>
+</main>
+
+<footer class="foot">
+  <span>© <span id="yr">2026</span> Your Name</span>
+</footer>
+<script src="main.js" defer></script>
+</body>
+</html>

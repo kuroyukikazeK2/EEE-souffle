@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projects | Your Name</title>
+<meta name="description" content="Things I've made.">
+<meta name="theme-color" content="#f3f4ec">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Public+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script>document.documentElement.classList.add('js');try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar">
+  <a class="brand" href="index.html">Your Name</a>
+  <nav aria-label="Main">
+    <a href="index.html">About</a>
+    <a href="projects.html" aria-current="page">Projects</a>
+    <a href="cv.pdf">CV</a>
+    <button id="theme" type="button" class="plain">dark</button>
+  </nav>
+</header>
+
+<main id="main" class="page">
+  <h1>Projects</h1>
+  <p class="lede" data-words>Things I've made. Projects tagged "mini" are interactive, so go ahead and play with them.</p>
+
+  <div id="filters" class="chips" role="group" aria-label="Filter by category">
+    <button class="chip" type="button" data-cat="" aria-pressed="true">All</button>
+    <button class="chip" id="tagclear" type="button" data-tag="" hidden></button>
+  </div>
+  <p id="count" class="count" aria-live="polite"></p>
+
+  <div id="project-list" class="rows"></div>
+  <p id="empty" hidden>Nothing matches those filters. Pick "All" to see every project.</p>
+</main>
+
+<footer class="foot">
+  <span>© <span id="yr">2026</span> Your Name</span>
+</footer>
+<script src="main.js" defer></script>
+</body>
+</html>
