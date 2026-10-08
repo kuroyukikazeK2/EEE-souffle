@@ -3,15 +3,50 @@
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---------- EDIT YOUR CONTENT HERE ---------- */
-  const CATS = { art: 'Art & Design', dev: 'Development', sci: 'Math & Science' };
+  const CATS = { 
+    art: 'Artwork & Design', 
+    elec: 'Electronics', 
+    Models: '3d Models', 
+    Acads: 'Academics' 
+  };
+ 
   // tags: use "mini" for interactive projects people can play with
   const PROJECTS = [
-    { title: 'Project one', blurb: 'One line on what it is and why it exists.', year: 2026, cats: ['dev'], tags: ['personal', 'mini'], href: '#', featured: true },
-    { title: 'Project two', blurb: 'A school report I think turned out neat.', year: 2025, cats: ['sci'], tags: ['school', 'report'], href: '#', featured: true },
-    { title: 'Project three', blurb: 'A design piece, branding or poster work.', year: 2025, cats: ['art'], tags: ['personal'], href: '#', featured: true },
-    { title: 'Project four', blurb: 'Something smaller that did not fit elsewhere.', year: 2024, cats: ['dev', 'art'], tags: ['personal', 'mini'], href: '#', featured: false },
+    { 
+      title: 'Project one', 
+      blurb: 'One line on what it is and why it exists.', 
+      year: 2026, 
+      cats: ['dev'], 
+      tags: ['personal', 'mini'], 
+      href: '#', 
+      featured: true 
+    },
+    { 
+      title: 'Project two', 
+      blurb: 'A school report I think turned out neat.', 
+      year: 2025, 
+      cats: ['sci'], 
+      tags: ['school', 'report'], 
+      href: '#', 
+      featured: true },
+    { 
+      title: 'Project three', 
+      blurb: 'A design piece, branding or poster work.', 
+      year: 2025, 
+      cats: ['art'], 
+      tags: ['personal'], 
+      href: '#', 
+      featured: true },
+    { 
+      title: 'Project four', 
+      blurb: 'Something smaller that did not fit elsewhere.', 
+      year: 2024, 
+      cats: ['dev', 'art'], 
+      tags: ['personal', 'mini'], 
+      href: '#', 
+      featured: false },
   ];
-  const GREETINGS = ['hello', '你好', 'bonjour', 'வணக்கம்', 'hai'];
+  const GREETINGS = ['hello', '你好', 'bonjour', 'வணக்கம்', 'hai', 'Gudentag'];
   /* -------------------------------------------- */
 
 
