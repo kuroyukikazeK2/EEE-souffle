@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Notes | Lee Heng Hao Ernest</title>
+  <meta name="description" content="Compiled course notes and submissions.">
+  <meta name="theme-color" content="#f3f4ec">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Public+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+  <script>document.documentElement.classList.add('js');try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body>
+
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="bar">
+    <a class="brand" href="index.html">Lee Heng Hao Ernest</a>
+    <nav aria-label="Main">
+      <a href="index.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="notes.html" aria-current="page">Notes</a>
+      <a href="cv.pdf">CV</a>
+      <button id="theme" type="button" class="plain">dark</button>
+    </nav>
+  </header>
+
+  <main id="main" class="page">
+    <section id="view-notes">
+      <div class="page-banner">
+        <h1>Notes</h1>
+        <p class="lede" data-words>Compiled notes from courses I have taken in polytechnic and NTU, together with my personal notes or submissions.</p>
+      </div>
+
+      <!-- Search & Filter Controls -->
+      <div class="filter-controls">
+        <div class="search-box">
+          <input 
+            type="text" 
+            id="notes-search" 
+            placeholder="Search by code or title (e.g., 'MA2002', 'Calculus')..." 
+            oninput="filterNotes()"
+          />
+          <button id="clear-search" onclick="clearSearch()" aria-label="Clear search" style="display:none;">&times;</button>
+        </div>
+
+        <div class="filter-dropdowns">
+          <div class="filter-group">
+            <label for="filter-level">Level:</label>
+            <select id="filter-level" onchange="filterNotes()">
+              <option value="all">All Levels</option>
+              <option value="2000">2000-level</option>
+              <option value="3000">3000-level</option>
+              <option value="4000">4000-level</option>
+              <option value="5000">5000-level</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="filter-status">Format:</label>
+            <select id="filter-status" onchange="filterNotes()">
+              <option value="all">All Types</option>
+              <option value="pdf">Available PDF</option>
+              <option value="prep">In Preparation</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="active-filters" class="active-filters"></div>
+      </div>
+
+      <!-- Counter -->
+      <div class="notes-count">
+        Showing <span id="visible-count">0</span> of <span id="total-count">0</span> notes
+      </div>
+
+      <!-- Notes Grid -->
+      <div id="notes-container">
+        <section class="notes-category" data-category="2000">
+          <h2>2000-level</h2>
+          <div class="notes-grid">
+            <a href="uploads/MA2002_Calculus.pdf" class="note-card" data-level="2000" data-status="pdf" data-code="MA2002" data-title="Calculus">
+              <span class="code">MA2002</span>
+              <span class="title">Calculus</span>
+              <span class="badge pdf">PDF</span>
+            </a>
+            <a href="uploads/MA2104_Multivariable_Calculus.pdf" class="note-card" data-level="2000" data-status="pdf" data-code="MA2104" data-title="Multivariable Calculus">
+              <span class="code">MA2104</span>
+              <span class="title">Multivariable Calculus</span>
+              <span class="badge pdf">PDF</span>
+            </a>
+            <div class="note-card disabled" data-level="2000" data-status="prep" data-code="EE2001" data-title="Circuit Analysis">
+              <span class="code">EE2001</span>
+              <span class="title">Circuit Analysis</span>
+              <span class="badge prep">In Preparation</span>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div id="no-results" class="no-results" style="display: none;">
+        No notes match your current query and filters.
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>© <span id="yr">2026</span> Lee Heng Hao Ernest</span>
+  </footer>
+
+  <script src="main.js" defer></script>
+</body>
+</html>

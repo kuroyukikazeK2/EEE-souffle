@@ -3,17 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Your Name</title>
-  <meta name="description" content="Personal website of Your Name.">
+  <title>Lee Heng Hao Ernest</title>
+  <meta name="description" content="Personal website of Lee Heng Hao Ernest.">
   <meta name="theme-color" content="#f3f4ec">
   <link rel="stylesheet" href="style.css">
 
-  <!--Google Fonts ---->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Public+Sans:wght@400;500&display=swap" rel="stylesheet">
 
-<script>document.documentElement.classList.add('js');try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+  <script>document.documentElement.classList.add('js');try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 </head>
 <body>
 
@@ -22,141 +22,55 @@
   <header class="bar">
     <a class="brand" href="index.html">Lee Heng Hao Ernest</a>
     <nav aria-label="Main">
-    <a href="index.html" aria-current="page">About</a>
-    <a href="projects.html">Projects</a>
-    <a href="#notes" class="nav-link" onclick="switchView('notes', event)">Notes</a>
-    <a href="cv.pdf">CV</a>
-    <button id="theme" type="button" class="plain">dark</button>
-  </nav>
-</header>
+      <a href="index.html" aria-current="page">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="notes.html">Notes</a>
+      <a href="cv.pdf">CV</a>
+      <button id="theme" type="button" class="plain">dark</button>
+    </nav>
+  </header>
 
-<main id="main" class="page">
-  
-  <!-- VIEW 1: ABOUT (Main Page Home) -->
-  <section class="intro">
-    <div>
-      <h1><button id="hello" class="hello" type="button" title="Click to change">hello</button>, kuroyukikazek2</h1>
-      <p class="native" lang="zh">黒雪風姫</p>
-      <p class="links">
-        <a href="https://github.com/kuroyukikazek2">GitHub</a>
-        <a href="https://www.linkedin.com/in/ernestleehh">LinkedIn</a>
-        <a href="https://www.instagram.com/lonely_voidk2/">Instagram</a>
-      </p>
-    </div>
-    <img class="avatar" src="img/profile.svg" alt="Portrait of Your Name" width="120" height="120">
-  </section>
-
-  <p class="lede" data-words>I'm a freshmen at Nanyang Technological University, Electrical & Electronics Engineering with a 2nd major in society & urban systems. 
-    Currently [what you're up to this term]. This site is where I keep the things I've made and the things I'm still working stuff out.</p>
-
-  <h2>Interests</h2>
-  <ul class="reveal">
-    <li>My main interest, lies in <s> slacking </s>  (im joking) <strong> engineering </strong> and wondering how the world around me works, or what makes things tick.</li>
-    <li>Other interests also include slides design, vibe coding, and building stuff.</li>
-    <li>Have an interest in camera & videography too.</li>
-  </ul>
-
-  <h2>Browse by category</h2>
-  <p class="chips" id="cats"></p>
-
-  <h2>Highlighted projects</h2>
-  <div id="featured" class="rows"></div>
-  <p><a href="projects.html">See all projects</a></p>
-
-  <h2>Documents</h2>
-  <p class="links"><a href="cv.pdf">Curriculum vitae</a> <a href="transcript.pdf">Transcript</a></p>
-
-  <h2>Contact</h2>
-  <p>you at example.com</p>
-
-  <!-- VIEW 3: NOTES (NOTES) -->
-   <section id="view-notes" class="page-view">
-      <div class="page-banner">
-        <h1>Notes</h1>
-        <p class="lead">Compiled notes from courses I have taken in polytechnic and NTU, together with my personal notes or submissions.</p>
+  <main id="main" class="page">
+    <section class="intro">
+      <div>
+        <h1><button id="hello" class="hello" type="button" title="Click to change">hello</button>, kuroyukikazek2</h1>
+        <p class="native" lang="zh">黒雪風姫</p>
+        <p class="links">
+          <a href="https://github.com/kuroyukikazek2">GitHub</a>
+          <a href="https://www.linkedin.com/in/ernestleehh">LinkedIn</a>
+          <a href="https://www.instagram.com/lonely_voidk2/">Instagram</a>
+        </p>
       </div>
-
-      <!-- Search & Filter Controls -->
-      <div class="filter-controls">
-    
-      <!-- Search Bar with Integrated Quick Clear -->
-      <div class="search-box">
-        <input 
-          type="text" 
-          id="notes-search" 
-          placeholder="Search by code or title (e.g., 'MA2002', 'Calculus')..." 
-          oninput="filterNotes()"
-        />
-        <button id="clear-search" onclick="clearSearch()" aria-label="Clear search">&times;</button>
-      </div>
-
-      <!-- Dual Category Filter Dropdowns -->
-        <div class="filter-dropdowns">
-          <div class="filter-group">
-            <label for="filter-level">Level:</label>
-            <select id="filter-level" onchange="filterNotes()">
-              <option value="all">All Levels</option>
-              <option value="2000">2000-level</option>
-              <option value="3000">3000-level</option>
-              <option value="4000">4000-level</option>
-              <option value="5000">5000-level</option>
-            </select>
-          </div>
-
-          <div class="filter-group">
-            <label for="filter-status">Status / Format:</label>
-            <select id="filter-status" onchange="filterNotes()">
-              <option value="all">All Types</option>
-              <option value="pdf">Available PDF</option>
-              <option value="prep">In Preparation</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Active Filter Tags Container -->
-        <div id="active-filters" class="active-filters"></div>
-      </div>
-
-      <!-- Live Counter -->
-        <div class="notes-count">
-          Showing <span id="visible-count">0</span> of <span id="total-count">0</span> notes
-        </div>
-
-      <!-- Notes Grid -->
-      <div id="notes-container">
-
-          <!-- 2000-level Notes -->
-          <section class="notes-category">
-            <h3>2000-level</h3>
-            <div class="notes-grid">
-              <a href="/NEW/MA2002%20Calculus%20Notes%20TPE.pdf" class="note-card">
-                <span class="code">MA2002</span>
-                <span class="title">Calculus</span>
-                <span class="badge pdf">PDF</span>
-              </a>
-              <a href="/NEW/MA2104%20Multivariable%20Calculus%20I%20Notes%20TPE.pdf" class="note-card">
-                <span class="code">MA2104</span>
-                <span class="title">Multivariable Calculus</span>
-                <span class="badge pdf">PDF</span>
-              </a>
-          <!-- Add remaining cards here -->
-        </div>
-
-        <!-- No Results Placeholder -->
-        <div id="no-results" class="no-results" style="display: none;">
-          No notes match your current query and filters.
-        </div>
-      
+      <img class="avatar" src="img/profile.svg" alt="Portrait of Lee Heng Hao Ernest" width="120" height="120">
     </section>
-</main>
 
-<footer class="foot">
-  <span>© <span id="yr">2026</span> Your Name</span>
-</footer>
+    <p class="lede" data-words>I'm a freshman at Nanyang Technological University, Electrical & Electronics Engineering with a 2nd major in Society & Urban Systems. This site is where I keep the things I've made and the things I'm working on.</p>
 
+    <h2>Interests</h2>
+    <ul class="reveal">
+      <li>My main interest lies in <strong>engineering</strong> and understanding how the world works.</li>
+      <li>Other interests include slide design, vibe coding, and building electronics hardware.</li>
+      <li>Videography and digital photography.</li>
+    </ul>
+
+    <h2>Browse by category</h2>
+    <p class="chips" id="cats"></p>
+
+    <h2>Highlighted projects</h2>
+    <div id="featured" class="rows"></div>
+    <p><a href="projects.html">See all projects</a></p>
+
+    <h2>Documents</h2>
+    <p class="links"><a href="cv.pdf">Curriculum vitae</a> <a href="transcript.pdf">Transcript</a></p>
+
+    <h2>Contact</h2>
+    <p>Feel free to reach out via LinkedIn or email.</p>
+  </main>
+
+  <footer class="foot">
+    <span>© <span id="yr">2026</span> Lee Heng Hao Ernest</span>
+  </footer>
 
   <script src="main.js" defer></script>
-
-
 </body>
 </html>

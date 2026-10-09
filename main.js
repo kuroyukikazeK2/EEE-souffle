@@ -195,3 +195,67 @@
 
   window.addEventListener('pageshow', () => document.body.classList.remove('leaving'));
 })();
+
+/* ---------- NOTES SEARCH & FILTER ENGINE ---------- */
+function filterNotes() {
+  const searchInput = document.getElementById('notes-search');
+  if (!searchInput) return;
+
+  const searchQuery = searchInput.value.toLowerCase().trim();
+  const selectedLevel = document.getElementById('filter-level').value;
+  const selectedStatus = document.getElementById('filter-status').value;
+  
+  const cards = document.querySelectorAll('.note-card');
+  const categories = document.querySelectorAll('.notes-category');
+  
+  let visibleCount = 0;
+  const totalCount = cards.length;
+
+  const clearBtn = document.getElementById('clear-search');
+  if (clearBtn) clearBtn.style.display = searchQuery ? 'inline-block' : 'none';
+
+  cards.forEach(card => {
+    const code = (card.dataset.code || '').toLowerCase();
+    const title = (card.dataset.title || '').toLowerCase();
+    const level = card.dataset.level;
+    const status = card.dataset.status;
+
+    const matchesSearch = !searchQuery || code.includes(searchQuery) || title.includes(searchQuery);
+    const matchesLevel = selectedLevel === 'all' || level === selectedLevel;
+    const matchesStatus = selectedStatus === 'all' || status === selectedStatus;
+
+    if (matchesSearch && matchesLevel && matchesStatus) {
+      card.style.display = 'flex';
+      visibleCount++;
+    } else {
+      card.style.display = 'none';
+    }
+  });
+
+  categories.forEach(cat => {
+    const visibleInCat = cat.querySelectorAll('.note-card[style*="display: flex"]');
+    cat.style.display = visibleInCat.length > 0 ? 'block' : 'none';
+  });
+
+  const visibleElem = document.getElementById('visible-count');
+  const totalElem = document.getElementById('total-count');
+  const noResults = document.getElementById('no-results');
+
+  if (visibleElem) visibleElem.textContent = visibleCount;
+  if (totalElem) totalElem.textContent = totalCount;
+  if (noResults) noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+}
+
+function clearSearch() {
+  const searchInput = document.getElementById('notes-search');
+  if (searchInput) {
+    searchInput.value = '';
+    filterNotes();
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (document.getElementById('notes-search')) {
+    filterNotes();
+  }
+});
