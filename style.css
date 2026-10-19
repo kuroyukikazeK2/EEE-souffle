@@ -247,3 +247,14 @@ a.note-card:hover {
   color: var(--mute);
   font-style: italic;
 }
+
+.badge.exe {
+  background: #0078d7; /* Windows blue */
+  color: #fff;
+}
+
+.badge.code {
+  background: #373d3f; /* Dark gray */
+  color: #fff;
+  font-family: monospace; /* Gives the badge a coding aesthetic */
+}

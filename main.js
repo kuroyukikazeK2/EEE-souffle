@@ -259,3 +259,125 @@ document.addEventListener('DOMContentLoaded', () => {
     filterNotes();
   }
 });
+
+/* ---------- AUTOMATIC GITHUB FILE LOADER ---------- */
+async function fetchGithubNotes() {
+  const container = document.getElementById('notes-container');
+  if (!container) return;
+
+  const repoOwner = 'kuroyukikazeK2';
+  const repoName = 'EEE-souffle';
+  const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/git/trees/main?recursive=1`;
+
+  try {
+    const response = await fetch(apiUrl);
+    if (!response.ok) return;
+    
+    const data = await response.json();
+    
+    // 1. Define allowed extensions (Added .exe, .c, .py, .js, .html, .css, .ino)
+    const allowedExts = [
+      '.pdf', '.ppt', '.pptx', '.doc', '.docx', 
+      '.exe', '.c', '.py', '.js', '.html', '.css', '.ino'
+    ];
+
+    // 2. Filter files
+    const validFiles = data.tree.filter(item => {
+      if (item.type !== 'blob') return false;
+      const lowerPath = item.path.toLowerCase();
+      if (lowerPath.includes('cv.pdf') || lowerPath.includes('transcript.pdf')) return false;
+      return allowedExts.some(ext => lowerPath.endsWith(ext));
+    });
+
+    if (validFiles.length === 0) return;
+
+    container.innerHTML = '';
+    const levels = {};
+
+    validFiles.forEach(file => {
+      const fullPath = file.path;
+      
+      const lastDotIndex = fullPath.lastIndexOf('.');
+      const ext = fullPath.substring(lastDotIndex + 1).toLowerCase();
+      const fileName = fullPath.substring(fullPath.lastIndexOf('/') + 1, lastDotIndex);
+      
+      // Determine format group and badge label
+      let formatGroup = 'pdf';
+      let badgeLabel = 'PDF';
+      
+      if (ext.includes('ppt')) { 
+        formatGroup = 'ppt'; 
+        badgeLabel = 'SLIDES'; 
+      } else if (ext.includes('doc')) { 
+        formatGroup = 'doc'; 
+        badgeLabel = 'DOC'; 
+      } else if (ext === 'exe') {
+        formatGroup = 'exe';
+        badgeLabel = 'EXE';
+      } else if (['c', 'py', 'js', 'html', 'css', 'ino'].includes(ext)) {
+        formatGroup = 'code';
+        badgeLabel = ext.toUpperCase(); // Creates a 'C', 'PY', or 'INO' badge
+      }
+
+      // Automatically detect course codes
+      const codeMatch = fileName.match(/([A-Z]{2,3}\d{4})/i) || fullPath.match(/([A-Z]{2,3}\d{4})/i);
+      const code = codeMatch ? codeMatch[1].toUpperCase() : 'DOC';
+
+      // Determine level category
+      const levelDigitMatch = code.match(/\d/);
+      const levelDigit = levelDigitMatch ? levelDigitMatch[0] : '0';
+      const level = levelDigit === '0' ? '1000' : `${levelDigit}000`;
+
+      let title = fileName;
+      if (codeMatch) {
+        title = fileName.replace(codeMatch[0], '').replace(/^[\s\-_]+|[\s\-_]+$/g, '');
+      }
+      if (!title) title = code;
+
+      if (!levels[level]) levels[level] = [];
+
+      levels[level].push({
+        code,
+        title,
+        path: encodeURI(fullPath),
+        level,
+        formatGroup,
+        badgeLabel
+      });
+    });
+
+    // Render cards
+    Object.keys(levels).sort().forEach(lvl => {
+      const section = document.createElement('section');
+      section.className = 'notes-category';
+      section.dataset.category = lvl;
+
+      const header = document.createElement('h2');
+      header.textContent = `${lvl}-level`;
+      section.appendChild(header);
+
+      const grid = document.createElement('div');
+      grid.className = 'notes-grid';
+
+      levels[lvl].forEach(note => {
+        grid.innerHTML += `
+          <a href="${note.path}" class="note-card" data-level="${note.level}" data-status="${note.formatGroup}" data-code="${note.code}" data-title="${note.title}" target="_blank">
+            <span class="code">${note.code}</span>
+            <span class="title">${note.title}</span>
+            <span class="badge ${note.formatGroup}">${note.badgeLabel}</span>
+          </a>
+        `;
+      });
+
+      section.appendChild(grid);
+      container.appendChild(section);
+    });
+
+    if (typeof filterNotes === 'function') filterNotes();
+
+  } catch (err) {
+    console.error('Error fetching notes from GitHub API:', err);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', fetchGithubNotes);
