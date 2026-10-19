@@ -260,9 +260,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-/* ---------- AUTOMATIC GITHUB FILE LOADER ---------- */
+/* ---------- AUTOMATIC GITHUB FILE LOADER & SEARCH ---------- */
+let allNotesData = []; 
+
 async function fetchGithubNotes() {
   const container = document.getElementById('notes-container');
+  const searchInput = document.getElementById('notes-search');
   if (!container) return;
 
   const repoOwner = 'kuroyukikazeK2';
@@ -271,113 +274,126 @@ async function fetchGithubNotes() {
 
   try {
     const response = await fetch(apiUrl);
-    if (!response.ok) return;
-    
+    if (!response.ok) throw new Error('API fetch failed');
     const data = await response.json();
     
-    // 1. Define allowed extensions (Added .exe, .c, .py, .js, .html, .css, .ino)
-    const allowedExts = [
-      '.pdf', '.ppt', '.pptx', '.doc', '.docx', 
-      '.exe', '.c', '.py', '.js', '.html', '.css', '.ino'
-    ];
+    const allowedExts = ['.pdf', '.ppt', '.pptx', '.doc', '.docx', '.exe', '.c', '.py', '.js', '.html', '.css', '.ino'];
 
-    // 2. Filter files
-    const validFiles = data.tree.filter(item => {
+    // Process and store the data globally
+    allNotesData = data.tree.filter(item => {
       if (item.type !== 'blob') return false;
       const lowerPath = item.path.toLowerCase();
       if (lowerPath.includes('cv.pdf') || lowerPath.includes('transcript.pdf')) return false;
       return allowedExts.some(ext => lowerPath.endsWith(ext));
-    });
-
-    if (validFiles.length === 0) return;
-
-    container.innerHTML = '';
-    const levels = {};
-
-    validFiles.forEach(file => {
+    }).map(file => {
       const fullPath = file.path;
-      
       const lastDotIndex = fullPath.lastIndexOf('.');
       const ext = fullPath.substring(lastDotIndex + 1).toLowerCase();
       const fileName = fullPath.substring(fullPath.lastIndexOf('/') + 1, lastDotIndex);
       
-      // Determine format group and badge label
-      let formatGroup = 'pdf';
       let badgeLabel = 'PDF';
-      
-      if (ext.includes('ppt')) { 
-        formatGroup = 'ppt'; 
-        badgeLabel = 'SLIDES'; 
-      } else if (ext.includes('doc')) { 
-        formatGroup = 'doc'; 
-        badgeLabel = 'DOC'; 
-      } else if (ext === 'exe') {
-        formatGroup = 'exe';
-        badgeLabel = 'EXE';
-      } else if (['c', 'py', 'js', 'html', 'css', 'ino'].includes(ext)) {
-        formatGroup = 'code';
-        badgeLabel = ext.toUpperCase(); // Creates a 'C', 'PY', or 'INO' badge
-      }
+      if (ext.includes('ppt')) badgeLabel = 'SLIDES';
+      else if (ext.includes('doc')) badgeLabel = 'DOC';
+      else if (ext === 'exe') badgeLabel = 'EXE';
+      else if (['c', 'py', 'js', 'html', 'css', 'ino'].includes(ext)) badgeLabel = ext.toUpperCase();
 
-      // Automatically detect course codes
       const codeMatch = fileName.match(/([A-Z]{2,3}\d{4})/i) || fullPath.match(/([A-Z]{2,3}\d{4})/i);
       const code = codeMatch ? codeMatch[1].toUpperCase() : 'DOC';
 
-      // Determine level category
       const levelDigitMatch = code.match(/\d/);
       const levelDigit = levelDigitMatch ? levelDigitMatch[0] : '0';
       const level = levelDigit === '0' ? '1000' : `${levelDigit}000`;
 
       let title = fileName;
-      if (codeMatch) {
-        title = fileName.replace(codeMatch[0], '').replace(/^[\s\-_]+|[\s\-_]+$/g, '');
-      }
+      if (codeMatch) title = fileName.replace(codeMatch[0], '').replace(/^[\s\-_]+|[\s\-_]+$/g, '');
       if (!title) title = code;
 
-      if (!levels[level]) levels[level] = [];
-
-      levels[level].push({
-        code,
-        title,
+      return {
+        code, title, level, badgeLabel,
         path: encodeURI(fullPath),
-        level,
-        formatGroup,
-        badgeLabel
-      });
+        searchString: `${code} ${title}`.toLowerCase() // Used for fast searching
+      };
     });
 
-    // Render cards
-    Object.keys(levels).sort().forEach(lvl => {
-      const section = document.createElement('section');
-      section.className = 'notes-category';
-      section.dataset.category = lvl;
+    renderNotes(); // Initial layout render
 
-      const header = document.createElement('h2');
-      header.textContent = `${lvl}-level`;
-      section.appendChild(header);
-
-      const grid = document.createElement('div');
-      grid.className = 'notes-grid';
-
-      levels[lvl].forEach(note => {
-        grid.innerHTML += `
-          <a href="${note.path}" class="note-card" data-level="${note.level}" data-status="${note.formatGroup}" data-code="${note.code}" data-title="${note.title}" target="_blank">
-            <span class="code">${note.code}</span>
-            <span class="title">${note.title}</span>
-            <span class="badge ${note.formatGroup}">${note.badgeLabel}</span>
-          </a>
-        `;
+    // Attach dynamic "as-you-type" search listeners
+    if (searchInput) {
+      searchInput.addEventListener('input', renderNotes);
+      document.getElementById('clear-search')?.addEventListener('click', () => {
+        searchInput.value = '';
+        renderNotes();
+        searchInput.focus();
       });
-
-      section.appendChild(grid);
-      container.appendChild(section);
-    });
-
-    if (typeof filterNotes === 'function') filterNotes();
+    }
 
   } catch (err) {
-    console.error('Error fetching notes from GitHub API:', err);
+    console.error('Error fetching notes:', err);
+    document.getElementById('matches-count').textContent = 'Failed to load repository files.';
   }
+}
+
+function renderNotes() {
+  const container = document.getElementById('notes-container');
+  const query = (document.getElementById('notes-search')?.value || '').toLowerCase().trim();
+  const clearBtn = document.getElementById('clear-search');
+  const countDisplay = document.getElementById('matches-count');
+  
+  if (!container) return;
+  if (clearBtn) clearBtn.hidden = query.length === 0; // Show 'X' only if typing
+
+  // Filter the global array
+  const filtered = allNotesData.filter(note => note.searchString.includes(query));
+  
+  // Update matches count text exactly like the screenshots
+  if (countDisplay) {
+    if (query.length > 0) {
+      countDisplay.textContent = `${filtered.length} matches`;
+    } else {
+      countDisplay.textContent = `${filtered.length} sets of notes available`;
+    }
+  }
+
+  container.innerHTML = '';
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<div class="no-results">No notes match your search.</div>';
+    return;
+  }
+
+  // Group by level
+  const levels = {};
+  filtered.forEach(note => {
+    if (!levels[note.level]) levels[note.level] = [];
+    levels[note.level].push(note);
+  });
+
+  // Render the new minimalist list layout
+  Object.keys(levels).sort().forEach(lvl => {
+    const group = document.createElement('div');
+    group.className = 'level-group';
+
+    const sidebar = document.createElement('div');
+    sidebar.className = 'level-sidebar';
+    sidebar.textContent = `${lvl}-level`;
+    group.appendChild(sidebar);
+
+    const content = document.createElement('div');
+    content.className = 'level-content';
+
+    levels[lvl].forEach(note => {
+      content.innerHTML += `
+        <a href="${note.path}" class="note-row" target="_blank">
+          <span class="code">${note.code}</span>
+          <span class="title">${note.title}</span>
+          <span class="badge-text">${note.badgeLabel}</span>
+        </a>
+      `;
+    });
+
+    group.appendChild(content);
+    container.appendChild(group);
+  });
 }
 
 document.addEventListener('DOMContentLoaded', fetchGithubNotes);
