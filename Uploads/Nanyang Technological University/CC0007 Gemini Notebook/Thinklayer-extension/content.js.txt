@@ -1,0 +1,161 @@
+// ThinkLayer Content Script - Intercepts prompt submissions on ChatGPT
+
+(function () {
+  'use strict';
+
+  let shadowRoot = null;
+  let activeModal = null;
+
+  // Initialize isolated UI container inside Shadow DOM
+  function initShadowDOM() {
+    if (document.getElementById('thinklayer-root')) return;
+
+    const hostDiv = document.createElement('div');
+    hostDiv.id = 'thinklayer-root';
+    document.body.appendChild(hostDiv);
+
+    shadowRoot = hostDiv.attachShadow({ mode: 'open' });
+
+    // Inject isolated styles into Shadow DOM
+    const style = document.createElement('style');
+    style.textContent = `
+      .tl-overlay {
+        position: fixed;
+        top: 0; left: 0; width: 100vw; height: 100vh;
+        background: rgba(0, 0, 0, 0.65);
+        display: flex; justify-content: center; align-items: center;
+        z-index: 999999;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      }
+      .tl-card {
+        background: #ffffff;
+        color: #1a1a1a;
+        width: 440px;
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+        border: 1px solid #e5e7eb;
+      }
+      .tl-badge {
+        background: #e0e7ff;
+        color: #3730a3;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 4px 8px;
+        border-radius: 4px;
+        text-transform: uppercase;
+      }
+      .tl-title {
+        font-size: 18px;
+        font-weight: 700;
+        margin: 12px 0 8px 0;
+      }
+      .tl-desc {
+        font-size: 14px;
+        color: #4b5563;
+        line-height: 1.5;
+        margin-bottom: 20px;
+      }
+      .tl-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+      }
+      .tl-btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        border: none;
+      }
+      .tl-btn-primary { background: #4f46e5; color: white; }
+      .tl-btn-primary:hover { background: #4338ca; }
+      .tl-btn-secondary { background: #f3f4f6; color: #374151; }
+      .tl-btn-secondary:hover { background: #e5e7eb; }
+    `;
+    shadowRoot.appendChild(style);
+  }
+
+  // Basic Intent Classifier (Front-end heuristic rule engine)
+  function classifyPrompt(promptText) {
+    const text = promptText.toLowerCase();
+    
+    // Direct answer seeking pattern check
+    const answerSeekingKeywords = ['write my', 'do this for me', 'give me the answer', 'solve this for me', 'complete this'];
+    const isAnswerSeeking = answerSeekingKeywords.some(kw => text.includes(kw));
+
+    if (isAnswerSeeking) {
+      return { mode: 'Learn', needsIntervention: true, reason: 'Direct answer request detected.' };
+    }
+
+    return { mode: 'Direct', needsIntervention: false };
+  }
+
+  // Display ThinkLayer Modal Overlay
+  function showInterventionModal(promptText, onProceed) {
+    initShadowDOM();
+
+    const overlay = document.createElement('div');
+    overlay.className = 'tl-overlay';
+    overlay.innerHTML = `
+      <div class="tl-card">
+        <span class="tl-badge">ThinkLayer · Learn Mode</span>
+        <div class="tl-title">Try asking for a hint first?</div>
+        <div class="tl-desc">
+          You requested a full solution. Attempting a step independently before receiving the full answer helps retain core concepts better.
+        </div>
+        <div class="tl-actions">
+          <button class="tl-btn tl-btn-secondary" id="btn-bypass">Continue with original prompt</button>
+          <button class="tl-btn tl-btn-primary" id="btn-hint">Request a Hint First</button>
+        </div>
+      </div>
+    `;
+
+    shadowRoot.appendChild(overlay);
+
+    shadowRoot.getElementById('btn-hint').onclick = () => {
+      const modifiedPrompt = `Provide a single guiding hint or step-1 question to help me solve this, rather than giving the complete final answer right away: "${promptText}"`;
+      shadowRoot.removeChild(overlay);
+      onProceed(modifiedPrompt);
+    };
+
+    shadowRoot.getElementById('btn-bypass').onclick = () => {
+      shadowRoot.removeChild(overlay);
+      onProceed(promptText);
+    };
+  }
+
+  // Intercept Keyboard Entry on ChatGPT Prompt Area
+  function attachInterceptors() {
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        const textarea = document.querySelector('textarea#prompt-textarea, textarea');
+        if (!textarea || document.activeElement !== textarea) return;
+
+        const originalPrompt = textarea.value.trim();
+        if (!originalPrompt) return;
+
+        const classification = classifyPrompt(originalPrompt);
+
+        if (classification.needsIntervention) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          showInterventionModal(originalPrompt, (finalPrompt) => {
+            textarea.value = finalPrompt;
+            // Dispatch input event so React/Vue state updates on ChatGPT
+            textarea.dispatchEvent(new Event('input', { bubbles: true }));
+            
+            // Trigger standard form submit
+            const submitBtn = document.querySelector('button[data-testid="send-button"]') || textarea.form?.querySelector('button');
+            if (submitBtn) submitBtn.click();
+          });
+        }
+      }
+    }, true);
+  }
+
+  // Run Script
+  attachInterceptors();
+})();

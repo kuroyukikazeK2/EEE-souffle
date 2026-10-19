@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "ThinkLayer - AI Learning Companion",
+  "version": "1.0.0",
+  "description": "Adaptive learning guardrails and intervention layer for AI platforms.",
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://chatgpt.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://chatgpt.com/*"],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "ThinkLayer Active"
+  }
+}
