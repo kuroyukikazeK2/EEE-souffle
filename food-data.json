@@ -64,7 +64,8 @@
     "name": "Berempah Bros",
     "price": "5-10",
     "location": "Beauty World Centre",
-    "rating": 4
+    "rating": 4,
+    "halal": false
   },
   {
     "campus": "np",
@@ -94,7 +95,10 @@
     "name": "Mongkok Dimsum",
     "price": "10-15",
     "location": "Beauty World",
-    "maps": "https://maps.app.goo.gl/bdNGQj4Xvbe3grLX7"
+    "type": "Tzechar",
+    "maps": "https://maps.app.goo.gl/bdNGQj4Xvbe3grLX7",
+    "rating": 4.5,
+    "halal": false
   },
   {
     "campus": "np",
@@ -136,7 +140,12 @@
   {
     "campus": "np",
     "name": "A-Poh Kitchen",
-    "price": "10-15"
+    "price": "10-15",
+    "location": "Clementi",
+    "type": "Tzechar",
+    "notes": "EIG's go to spot for tzechar if need halal. Slightly smaller portion sizes compared to Kah Heng, but its also still damn good. Go to orders include curry fish head (if we balling), prawn paste chicken, fried rice (yea boring orders, but its good), la zi ji, etc.",
+    "rating": 4.5,
+    "halal": true
   },
   {
     "campus": "np",
