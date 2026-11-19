@@ -3,22 +3,34 @@
     "campus": "np",
     "name": "Bronzo Pasta",
     "price": "15-20",
-    "location": "Bukit Timah Food Centre"
+    "location": "Bukit Timah Food Centre",
+    "type": "Western",
+    "maps": "https://maps.app.goo.gl/qvqLfYAZAopTPscU8",
+    "rating": 5
   },
   {
     "campus": "np",
     "name": "Ding Te Le",
-    "price": "10-15"
+    "price": "10-15",
+    "location": "Beauty World",
+    "maps": "https://maps.app.goo.gl/P5hnDHbU2M8avGn78",
+    "rating": 4
   },
   {
     "campus": "np",
-    "name": "Al Halimah",
-    "price": "10-15"
+    "name": "Al Hazimah",
+    "price": "10-15",
+    "location": "Beauty World",
+    "maps": "https://maps.app.goo.gl/UbKJLZc5kRWyJfMJ8",
+    "rating": 4
   },
   {
     "campus": "np",
     "name": "Al Azhar",
-    "price": "10-15"
+    "price": "10-15",
+    "location": "Beauty World",
+    "maps": "https://maps.app.goo.gl/bdNGQj4Xvbe3grLX7",
+    "rating": 3.5
   },
   {
     "campus": "np",
@@ -64,7 +76,9 @@
   {
     "campus": "np",
     "name": "Mongkok Dimsum",
-    "price": "10-15"
+    "price": "10-15",
+    "location": "Beauty World",
+    "maps": "https://maps.app.goo.gl/bdNGQj4Xvbe3grLX7"
   },
   {
     "campus": "np",
@@ -139,14 +153,5 @@
     "campus": "ut",
     "name": "Soi 19",
     "price": "5-10"
-  },
-  {
-    "name": "Taste Good 好味小厨",
-    "campus": "other",
-    "price": "5-10",
-    "location": "Sim Lim Square",
-    "type": "Tzechar",
-    "maps": "https://maps.app.goo.gl/DH3c8YuXmGPGwHcx6",
-    "rating": 4
   }
 ]
