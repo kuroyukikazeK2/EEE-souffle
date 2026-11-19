@@ -5,6 +5,7 @@
   // Your spots live in food-data.json in this GitHub repo. Admin edits on the site are committed to that file.
   // Check owner/repo: it must be the repo that GitHub Pages serves this site from.
   const GH = { owner: 'kuroyukikazeK2', repo: 'kuroyukikazeK2.github.io', branch: 'main', path: 'food-data.json' };
+  try { const r = localStorage.getItem('food-gh-repo'); if (r && r.includes('/')) [GH.owner, GH.repo] = r.split('/'); } catch (e) {}
   // Optional: Google My Maps embed (the mid= value from your public My Maps link)
   const MY_MAP_ID = '';
   // Each spot is looked up on OpenStreetMap to fill in map pin, MRT distance, hours and halal/veg tags (your own values win).
@@ -25,7 +26,7 @@
   const uniq = a => [...new Set(a.filter(Boolean))].sort();
   const key = o => o.campus + '|' + o.name; // two spots can share a name (Chicken House)
 
-  let spots = [], data = [], E = null, sha = '', dirty = false;
+  let spots = [], data = [], E = null, sha = '', dirty = false, ghOk = true;
   const S = { q: '', campus: '', price: '', loc: '', mrt: '', type: '', rating: '', sort: '', halal: '', veg: '' };
   const P = new URLSearchParams(location.search);
   for (const k in S) S[k] = P.get(k) || '';
@@ -111,7 +112,7 @@
 
   /* ---------- admin: edit on the site, publish to GitHub ---------- */
   const token = () => { try { return localStorage.getItem('food-gh-token') || ''; } catch (e) { return ''; } };
-  const api = `https://api.github.com/repos/${GH.owner}/${GH.repo}/contents/${GH.path}`;
+  const api = () => `https://api.github.com/repos/${GH.owner}/${GH.repo}/contents/${GH.path}`;
   const hdr = () => ({ Authorization: 'Bearer ' + token(), Accept: 'application/vnd.github+json' });
   const b64d = s => decodeURIComponent(escape(atob(s.replace(/\n/g, ''))));
   const b64e = s => btoa(unescape(encodeURIComponent(s)));
@@ -162,23 +163,46 @@
     touched(); dlg.close();
   });
 
+  // checks the token and repo, and uses the repo's default branch
+  async function check() {
+    try {
+      const r = await fetch(`https://api.github.com/repos/${GH.owner}/${GH.repo}`, { headers: hdr() });
+      if (r.status === 401) { say('GitHub says the token is invalid or expired. Click Connection and paste a new one.'); return false; }
+      if (r.status === 404) { say(`Cannot see ${GH.owner}/${GH.repo}. Either the repo name is wrong or the token was not given access to it. Click Connection to fix either.`); return false; }
+      if (!r.ok) return true;
+      const j = await r.json();
+      if (j.default_branch) GH.branch = j.default_branch;
+      if (j.permissions && j.permissions.push === false) { say('The token can read this repo but not write. Give it Contents: Read and write, then click Connection.'); return false; }
+      return true;
+    } catch (e) { return true; }
+  }
+  $('#admin-repo').addEventListener('click', async () => {
+    const v = prompt('Repository that serves this site (owner/name):', `${GH.owner}/${GH.repo}`);
+    if (v && /^[^/\s]+\/[^/\s]+$/.test(v.trim())) { [GH.owner, GH.repo] = v.trim().split('/'); try { localStorage.setItem('food-gh-repo', v.trim()); } catch (e) {} }
+    const t = prompt('Paste a new token, or leave blank to keep the current one:');
+    if (t && t.trim()) { try { localStorage.setItem('food-gh-token', t.trim()); } catch (e) {} }
+    sha = ''; ghOk = await check();
+    if (ghOk) say('Connection looks good. Press Publish.');
+  });
+
   $('#publish').addEventListener('click', async () => {
     const clean = o => Object.fromEntries(Object.entries(o).filter(([, v]) => v !== '' && v !== undefined));
-    const body = { message: 'Update food spots', branch: GH.branch, content: b64e(JSON.stringify(spots.map(clean), null, 2) + '\n'), ...(sha && { sha }) };
     say('Publishing…');
     try {
-      const r = await fetch(api, { method: 'PUT', headers: hdr(), body: JSON.stringify(body) });
-      if (r.ok) { sha = (await r.json()).content.sha; dirty = false; adminUI(); say('Published. Visitors see it after GitHub Pages rebuilds (about a minute).'); enrich(); }
-      else if (r.status === 409 || r.status === 422) say('The file changed on GitHub since you loaded it. Reload the page, then redo your edits.');
-      else if (r.status === 401 || r.status === 403 || r.status === 404) say('GitHub rejected the token, or it cannot write to ' + GH.owner + '/' + GH.repo + '. Check the token and the repo name in food.js.');
-      else say('Publish failed (' + r.status + ').');
+      if (!sha) { const g = await fetch(`${api()}?ref=${GH.branch}`, { headers: hdr() }); if (g.ok) sha = (await g.json()).sha; }
+      const body = { message: 'Update food spots', branch: GH.branch, content: b64e(JSON.stringify(spots.map(clean), null, 2) + '\n'), ...(sha && { sha }) };
+      const r = await fetch(api(), { method: 'PUT', headers: hdr(), body: JSON.stringify(body) });
+      if (r.ok) { sha = (await r.json()).content.sha; dirty = false; ghOk = true; adminUI(); say('Published. Visitors see it after GitHub Pages rebuilds (about a minute).'); enrich(); return; }
+      const j = await r.json().catch(() => ({}));
+      const why = { 401: 'The token is invalid or expired.', 403: 'The token probably lacks Contents: Read and write for this repo.', 404: `Usually the repo name (${GH.owner}/${GH.repo}) or branch (${GH.branch}) is wrong, or the token has no access to the repo.`, 409: 'The file changed on GitHub since you loaded it.', 422: 'The file changed on GitHub since you loaded it.' }[r.status] || '';
+      say(`GitHub said ${r.status}: ${j.message || 'error'}. ${why} Click Connection to fix this; your edits are kept.`);
     } catch (e) { say('Could not reach GitHub.'); }
   });
 
   async function loadSpots() {
-    if (admin()) { // admins read straight from GitHub so edits show immediately
+    if (admin() && ghOk) { // admins read straight from GitHub so edits show immediately
       try {
-        const r = await fetch(`${api}?ref=${GH.branch}`, { headers: hdr() });
+        const r = await fetch(`${api()}?ref=${GH.branch}`, { headers: hdr() });
         if (r.ok) { const j = await r.json(); sha = j.sha; return JSON.parse(b64d(j.content)); }
         say(r.status === 401 ? 'GitHub rejected the token. Sign out and paste a new one.' : 'Could not read ' + GH.path + ' from GitHub (' + r.status + '), showing the published copy.');
       } catch (e) { say('Could not reach GitHub, showing the published copy.'); }
@@ -258,6 +282,7 @@
   }
 
   (async () => {
+    if (admin()) ghOk = await check();
     try { spots = await loadSpots(); } catch (e) { $('#food-status').textContent = "Couldn't load food-data.json."; }
     data = build(null); adminUI(); options(); render();
     if (spots.length) enrich();
