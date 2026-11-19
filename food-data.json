@@ -1,0 +1,143 @@
+[
+  {
+    "campus": "np",
+    "name": "Bronzo Pasta",
+    "price": "15-20",
+    "location": "Bukit Timah Food Centre"
+  },
+  {
+    "campus": "np",
+    "name": "Ding Te Le",
+    "price": "10-15"
+  },
+  {
+    "campus": "np",
+    "name": "Al Halimah",
+    "price": "10-15"
+  },
+  {
+    "campus": "np",
+    "name": "Al Azhar",
+    "price": "10-15"
+  },
+  {
+    "campus": "np",
+    "name": "Time for Thai",
+    "price": "10-15"
+  },
+  {
+    "campus": "np",
+    "name": "Nyonya Chendol",
+    "price": "<5",
+    "type": "Dessert"
+  },
+  {
+    "campus": "np",
+    "name": "Buta-Kin",
+    "price": "5-10",
+    "location": "Beauty World Centre"
+  },
+  {
+    "campus": "np",
+    "name": "Berempah Bros",
+    "price": "5-10",
+    "location": "Beauty World Centre"
+  },
+  {
+    "campus": "np",
+    "name": "Basil King",
+    "price": "5-10",
+    "location": "Beauty World Centre"
+  },
+  {
+    "campus": "np",
+    "name": "Mixue",
+    "price": "<5",
+    "type": "Dessert"
+  },
+  {
+    "campus": "np",
+    "name": "Chao Baba Freshly Cut Chicken",
+    "price": "25-30",
+    "notes": "Aka the knockoff HDL."
+  },
+  {
+    "campus": "np",
+    "name": "Mongkok Dimsum",
+    "price": "10-15"
+  },
+  {
+    "campus": "np",
+    "name": "OMMA Korean Charcoal BBQ",
+    "price": "20-25"
+  },
+  {
+    "campus": "np",
+    "name": "KahHeng Seafood Restaurant",
+    "price": "15-20",
+    "type": "Tzechar"
+  },
+  {
+    "campus": "np",
+    "name": "Chicken House",
+    "price": "10-15"
+  },
+  {
+    "campus": "np",
+    "name": "D'Life",
+    "price": "5-10",
+    "veg": true
+  },
+  {
+    "campus": "np",
+    "name": "McDonald's",
+    "price": "5-10"
+  },
+  {
+    "campus": "np",
+    "name": "Springleaf",
+    "price": "5-10",
+    "location": "Clementi"
+  },
+  {
+    "campus": "np",
+    "name": "A-Poh Kitchen",
+    "price": "10-15"
+  },
+  {
+    "campus": "np",
+    "name": "Boon Tong Kee",
+    "price": "10-15",
+    "location": "Beauty World Centre"
+  },
+  {
+    "campus": "ut",
+    "name": "The Roti Prata House",
+    "price": "5-10"
+  },
+  {
+    "campus": "ut",
+    "name": "Beach Road Scissors Curry Cutlet",
+    "price": "5-10"
+  },
+  {
+    "campus": "ut",
+    "name": "Chicken House",
+    "price": "10-15"
+  },
+  {
+    "campus": "ut",
+    "name": "Siam Square Mookata",
+    "price": "20-25"
+  },
+  {
+    "campus": "ut",
+    "name": "Woodlands Sourdough",
+    "price": "10-15"
+  },
+  {
+    "campus": "ut",
+    "name": "Soi 19",
+    "price": "5-10"
+  }
+]

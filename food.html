@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Food | Lee Heng Hao Ernest</title>
-  <meta name="description" content="Places to eat near NP and NTU.">
+  <meta name="description" content="EIG (and co) vetted spots for eating and hangout.">
   <meta name="theme-color" content="#f3f4ec">
   <link rel="stylesheet" href="style.css">
 
@@ -12,6 +12,58 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Public+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* Food page styles live here so they always load with the page */
+    .search-header.tight{margin-bottom:1.25rem}
+    #food-clear{position:absolute;right:0;background:none;border:0;color:var(--accent);font-size:1.5rem;cursor:pointer;line-height:1}
+    .filters{display:grid;grid-template-columns:repeat(auto-fill,minmax(10.5rem,1fr));gap:.75rem 1rem;align-items:end;margin:1.25rem 0 .75rem;font-family:var(--sans)}
+    .field{display:flex;flex-direction:column;gap:.3rem;min-width:0}
+    .field>span{font-size:.7rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+    .field select{appearance:none;-webkit-appearance:none;width:100%;font:500 .9rem var(--sans);color:var(--ink);background-color:var(--chip);
+      background-image:linear-gradient(45deg,transparent 50%,var(--mute) 50%),linear-gradient(135deg,var(--mute) 50%,transparent 50%);
+      background-position:calc(100% - 17px) 52%,calc(100% - 12px) 52%;background-size:5px 5px;background-repeat:no-repeat;
+      border:1px solid var(--line);border-radius:8px;padding:.5rem 2rem .5rem .75rem;cursor:pointer;text-overflow:ellipsis}
+    .field select:hover{border-color:var(--mute)}
+    .toggles{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-bottom:.75rem}
+    .count button{font-size:inherit}
+    .food-list{margin-top:2rem}
+    .spot{position:relative;display:grid;grid-template-columns:4.5rem 1fr;gap:0 1rem;padding:.9rem .5rem;border-bottom:1px solid var(--line);transition:padding-left .25s,background .2s}
+    .spot:hover{padding-left:1rem;background:var(--chip);border-radius:4px}
+    .spot .pr{font:.9rem var(--sans);color:var(--mute);padding-top:.35rem}
+    .spot h3 a{color:var(--ink);text-decoration:none}
+    .spot h3 a::after{content:"";position:absolute;inset:0}
+    .spot p{color:var(--mute);font-size:1rem;margin:.15rem 0}
+    .spot .meta{position:relative;display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem}
+    .tag{font:500 .75rem var(--sans);padding:.15rem .6rem;border-radius:999px;background:var(--chip);color:var(--mute);border:0}
+    .spot:hover .tag{background:var(--bg)}
+    .tag.halal,.tag.veg{background:var(--accent);color:var(--bg)}
+    a.tag{text-decoration:none}a.tag:hover,button.tag:hover{color:var(--ink)}
+    button.tag{cursor:pointer;border:1px dashed var(--mute)}
+    .stars{display:inline-block;margin-left:.6rem;font-size:.95rem;letter-spacing:.05em;vertical-align:.1em;white-space:nowrap;
+      background:linear-gradient(90deg,var(--accent) calc(var(--r)/5*100%),color-mix(in srgb,var(--mute) 40%,transparent) 0);
+      -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+    #food-map{margin:1rem 0}
+    #food-map summary{cursor:pointer;font:.95rem var(--sans);color:var(--accent)}
+    #food-map iframe{width:100%;height:420px;border:1px solid var(--line);border-radius:4px;margin-top:.75rem}
+    /* admin */
+    .admin-bar{display:flex;flex-wrap:wrap;gap:.5rem .75rem;align-items:center;border:1px dashed var(--mute);border-radius:8px;padding:.6rem .8rem;margin:0 0 1rem;font:.9rem var(--sans)}
+    .admin-bar b{font-weight:500}
+    .admin-bar .chip.primary{background:var(--ink);color:var(--bg)}
+    .admin-bar .chip:disabled{opacity:.45;cursor:default}
+    #admin-msg{color:var(--mute);flex:1 1 14rem}
+    dialog{width:min(30rem,92vw);background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:1.25rem 1.5rem;font-family:var(--sans)}
+    dialog::backdrop{background:rgba(0,0,0,.5)}
+    dialog h2{font:600 1.2rem var(--serif);margin:0 0 1rem}
+    .fld{display:block;margin:.6rem 0;font-size:.75rem;font-weight:500;color:var(--mute)}
+    .fld input,.fld select,.fld textarea{display:block;width:100%;margin-top:.25rem;font:400 .95rem var(--sans);color:var(--ink);background:var(--chip);border:1px solid var(--line);border-radius:6px;padding:.45rem .6rem}
+    .fld textarea{resize:vertical;min-height:3.5rem}
+    .two{display:grid;grid-template-columns:1fr 1fr;gap:0 .75rem}
+    .dlg-actions{display:flex;gap:.5rem;margin-top:1rem;align-items:center}
+    .dlg-actions .sp{flex:1}
+    .has-cursor dialog,.has-cursor dialog *{cursor:auto!important}
+    @media(max-width:34rem){.spot{grid-template-columns:1fr}.spot .pr{padding:0}.two{grid-template-columns:1fr}}
+  </style>
 
   <script>document.documentElement.classList.add('js');try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 </head>
@@ -33,7 +85,14 @@
 
   <main id="main" class="page">
     <h1>Food</h1>
-    <p class="lede" data-words>Places I like to eat around Ngee Ann Poly and NTU. Filter by price, area, type, halal or vegetarian-friendly, and tap a spot to open it on the map.</p>
+    <p class="lede" data-words>EIG (and co) vetted (and tested) spots for eating and hangout.</p>
+
+    <div id="admin-bar" class="admin-bar" hidden>
+      <b>Admin</b>
+      <button class="chip" id="add-spot" type="button">+ Add spot</button>
+      <button class="chip primary" id="publish" type="button" disabled>Publish changes</button>
+      <span id="admin-msg" aria-live="polite">Use Edit on a spot, then Publish to save it to the site.</span>
+    </div>
 
     <div class="search-header tight">
       <div class="search-input-wrapper">
@@ -43,7 +102,7 @@
       <div id="food-count" class="matches-count" aria-live="polite"></div>
     </div>
 
-    <div class="chips" role="group" aria-label="Near campus">
+    <div class="chips" role="group" aria-label="Area">
       <button class="chip" type="button" data-campus="" aria-pressed="true">All</button>
       <button class="chip" type="button" data-campus="np" aria-pressed="false">Near NP</button>
       <button class="chip" type="button" data-campus="ntu" aria-pressed="false">Near NTU</button>
@@ -55,11 +114,14 @@
       <label class="field"><span>Location</span><select id="f-loc"></select></label>
       <label class="field"><span>Near MRT</span><select id="f-mrt"></select></label>
       <label class="field"><span>Type</span><select id="f-type"></select></label>
+      <label class="field"><span>Rating</span><select id="f-rating"></select></label>
+      <label class="field"><span>Sort by</span><select id="f-sort"></select></label>
+    </div>
+    <div class="toggles">
       <button class="chip" id="food-halal" type="button" aria-pressed="false">Halal only</button>
       <button class="chip" id="food-veg" type="button" aria-pressed="false">Vegetarian-friendly</button>
-      <button class="plain" id="food-reset" type="button" hidden>Reset</button>
+      <button class="plain" id="food-reset" type="button" hidden>Reset filters</button>
     </div>
-
 
     <p class="count"><span id="food-status"></span> <button class="plain" id="food-refresh" type="button">Refresh</button></p>
 
@@ -72,8 +134,39 @@
     <p class="count">Map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>. Walking times to MRT are rough estimates.</p>
   </main>
 
+  <dialog id="spot-dlg">
+    <form id="spot-form" method="dialog">
+      <h2 id="sd-title">Edit spot</h2>
+      <label class="fld">Name<input id="sd-name" type="text" required></label>
+      <div class="two">
+        <label class="fld">Area<select id="sd-campus"><option value="np">Near NP</option><option value="ntu">Near NTU</option><option value="ut">Upper Thomson</option><option value="other">Elsewhere</option></select></label>
+        <label class="fld">Price (e.g. 10-15 or &lt;5)<input id="sd-price" type="text" required></label>
+      </div>
+      <div class="two">
+        <label class="fld">Location<input id="sd-location" type="text" placeholder="e.g. Beauty World Centre"></label>
+        <label class="fld">Type<input id="sd-type" type="text" placeholder="e.g. Dessert, Tzechar"></label>
+      </div>
+      <div class="two">
+        <label class="fld">Rating<select id="sd-rating"><option value="">Not rated</option><option value="5">5 stars</option><option value="4.5">4.5 stars</option><option value="4">4 stars</option><option value="3.5">3.5 stars</option><option value="3">3 stars</option><option value="2.5">2.5 stars</option><option value="2">2 stars</option><option value="1.5">1.5 stars</option><option value="1">1 star</option><option value="0.5">0.5 stars</option></select></label>
+        <label class="fld">Google Maps link (optional)<input id="sd-maps" type="url" placeholder="https://…"></label>
+      </div>
+      <div class="two">
+        <label class="fld">Halal<select id="sd-halal"><option value="">Auto (from map data)</option><option value="y">Yes</option><option value="n">No</option></select></label>
+        <label class="fld">Vegetarian-friendly<select id="sd-veg"><option value="">Auto (from map data)</option><option value="y">Yes</option><option value="n">No</option></select></label>
+      </div>
+      <label class="fld">Notes<textarea id="sd-notes"></textarea></label>
+      <div class="dlg-actions">
+        <button class="chip" id="sd-del" type="button" hidden>Delete</button>
+        <span class="sp"></span>
+        <button class="chip" id="sd-cancel" type="button">Cancel</button>
+        <button class="chip primary" type="submit" style="background:var(--ink);color:var(--bg)">Save</button>
+      </div>
+    </form>
+  </dialog>
+
   <footer class="foot">
     <span>© <span id="yr">2026</span> Lee Heng Hao Ernest</span>
+    <button class="plain" id="admin-link" type="button" style="margin-left:1rem">Admin</button>
   </footer>
 
   <script src="main.js" defer></script>
