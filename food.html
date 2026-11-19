@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Food | Lee Heng Hao Ernest</title>
+  <meta name="description" content="Places to eat near NP and NTU.">
+  <meta name="theme-color" content="#f3f4ec">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Public+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+  <script>document.documentElement.classList.add('js');try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body>
+
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="bar">
+    <a class="brand" href="index.html">Lee Heng Hao Ernest</a>
+    <nav aria-label="Main">
+      <a href="index.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="notes.html">Notes</a>
+      <a href="food.html" aria-current="page">Food</a>
+      <a href="cv.pdf">CV</a>
+      <button id="theme" type="button" class="plain">dark</button>
+    </nav>
+  </header>
+
+  <main id="main" class="page">
+    <h1>Food</h1>
+    <p class="lede" data-words>Places I like to eat around Ngee Ann Poly and NTU. Filter by price, area, type, halal or vegetarian-friendly, and tap a spot to open it on the map.</p>
+
+    <div class="search-header tight">
+      <div class="search-input-wrapper">
+        <input type="text" id="food-search" placeholder="Search by name, cuisine, area or MRT" autocomplete="off">
+        <button id="food-clear" type="button" aria-label="Clear search" hidden>&times;</button>
+      </div>
+      <div id="food-count" class="matches-count" aria-live="polite"></div>
+    </div>
+
+    <div class="chips" role="group" aria-label="Near campus">
+      <button class="chip" type="button" data-campus="" aria-pressed="true">All</button>
+      <button class="chip" type="button" data-campus="np" aria-pressed="false">Near NP</button>
+      <button class="chip" type="button" data-campus="ntu" aria-pressed="false">Near NTU</button>
+      <button class="chip" type="button" data-campus="ut" aria-pressed="false">Upper Thomson</button>
+    </div>
+
+    <div class="filters">
+      <label class="field"><span>Price</span><select id="f-price"></select></label>
+      <label class="field"><span>Location</span><select id="f-loc"></select></label>
+      <label class="field"><span>Near MRT</span><select id="f-mrt"></select></label>
+      <label class="field"><span>Type</span><select id="f-type"></select></label>
+      <button class="chip" id="food-halal" type="button" aria-pressed="false">Halal only</button>
+      <button class="chip" id="food-veg" type="button" aria-pressed="false">Vegetarian-friendly</button>
+      <button class="plain" id="food-reset" type="button" hidden>Reset</button>
+    </div>
+
+
+    <p class="count"><span id="food-status"></span> <button class="plain" id="food-refresh" type="button">Refresh</button></p>
+
+    <details id="food-map" hidden>
+      <summary>Show map</summary>
+      <iframe title="Map of food spots" loading="lazy"></iframe>
+    </details>
+
+    <div id="food-list" class="food-list"></div>
+    <p class="count">Map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>. Walking times to MRT are rough estimates.</p>
+  </main>
+
+  <footer class="foot">
+    <span>© <span id="yr">2026</span> Lee Heng Hao Ernest</span>
+  </footer>
+
+  <script src="main.js" defer></script>
+  <script src="food.js" defer></script>
+</body>
+</html>

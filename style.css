@@ -227,3 +227,30 @@ ul.reveal.in li{animation:fade .6s ease var(--d,0s) both}
     gap: 0.75rem;
   }
 }
+/* --- Food page --- */
+.search-header.tight{margin-bottom:1.25rem}
+#food-clear{position:absolute;right:0;background:none;border:none;color:var(--accent);font-size:1.5rem;cursor:pointer;line-height:1}
+.filters{display:flex;flex-wrap:wrap;align-items:flex-end;gap:.75rem 1rem;margin:1.25rem 0 .5rem;font-family:var(--sans)}
+.field{display:flex;flex-direction:column;gap:.2rem;font-size:.75rem;color:var(--mute)}
+.field select{appearance:none;-webkit-appearance:none;font:500 .85rem var(--sans);color:var(--ink);background-color:var(--chip);
+  background-image:linear-gradient(45deg,transparent 50%,var(--mute) 50%),linear-gradient(135deg,var(--mute) 50%,transparent 50%);
+  background-position:calc(100% - 15px) 55%,calc(100% - 10px) 55%;background-size:5px 5px;background-repeat:no-repeat;
+  border:0;border-radius:999px;padding:.35rem 1.9rem .35rem .8rem;cursor:pointer;max-width:100%}
+#food-halal{align-self:flex-end}
+.food-list{margin-top:2rem}
+.spot{position:relative;display:grid;grid-template-columns:4.5rem 1fr;gap:0 1rem;padding:.9rem .5rem;border-bottom:1px solid var(--line);transition:padding-left .25s,background .2s}
+.spot:hover{padding-left:1rem;background:var(--chip);border-radius:4px}
+.spot .pr{font:.9rem var(--sans);color:var(--mute);padding-top:.35rem}
+.spot h3 a{color:var(--ink);text-decoration:none}
+.spot h3 a::after{content:"";position:absolute;inset:0}
+.spot p{color:var(--mute);font-size:1rem;margin:.15rem 0}
+.spot .meta{position:relative;display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem}
+.tag{font:500 .75rem var(--sans);padding:.15rem .6rem;border-radius:999px;background:var(--chip);color:var(--mute)}
+.spot:hover .tag{background:var(--bg)}
+.tag.halal{background:var(--accent);color:var(--bg)}
+#food-map{margin:1rem 0}
+#food-map summary{cursor:pointer;font:.95rem var(--sans);color:var(--accent)}
+#food-map iframe{width:100%;height:420px;border:1px solid var(--line);border-radius:4px;margin-top:.75rem}
+@media(max-width:34rem){.spot{grid-template-columns:1fr}.spot .pr{padding:0}}
+.tag.veg{background:var(--accent);color:var(--bg)}
+a.tag{text-decoration:none}a.tag:hover{color:var(--ink)}
