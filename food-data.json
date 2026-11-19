@@ -14,46 +14,57 @@
     "price": "10-15",
     "location": "Beauty World",
     "maps": "https://maps.app.goo.gl/P5hnDHbU2M8avGn78",
-    "rating": 4
+    "rating": 4,
+    "halal": false
   },
   {
     "campus": "np",
     "name": "Al Hazimah",
     "price": "10-15",
     "location": "Beauty World",
+    "type": "Indian Muslim",
     "maps": "https://maps.app.goo.gl/UbKJLZc5kRWyJfMJ8",
-    "rating": 4
+    "rating": 4,
+    "halal": true
   },
   {
     "campus": "np",
     "name": "Al Azhar",
     "price": "10-15",
     "location": "Beauty World",
+    "type": "Indian Muslim",
     "maps": "https://maps.app.goo.gl/bdNGQj4Xvbe3grLX7",
-    "rating": 3.5
+    "rating": 3.5,
+    "halal": true
   },
   {
     "campus": "np",
     "name": "Time for Thai",
-    "price": "10-15"
+    "price": "10-15",
+    "rating": 4
   },
   {
     "campus": "np",
     "name": "Nyonya Chendol",
     "price": "<5",
-    "type": "Dessert"
+    "type": "Dessert",
+    "rating": 4
   },
   {
     "campus": "np",
     "name": "Buta-Kin",
     "price": "5-10",
-    "location": "Beauty World Centre"
+    "location": "Beauty World Centre",
+    "type": "Japanese",
+    "rating": 4.5,
+    "halal": false
   },
   {
     "campus": "np",
     "name": "Berempah Bros",
     "price": "5-10",
-    "location": "Beauty World Centre"
+    "location": "Beauty World Centre",
+    "rating": 4
   },
   {
     "campus": "np",
@@ -65,13 +76,18 @@
     "campus": "np",
     "name": "Mixue",
     "price": "<5",
-    "type": "Dessert"
+    "type": "Dessert",
+    "notes": "5 stars cuz its cheap, 1 dollar cone bro",
+    "rating": 5
   },
   {
     "campus": "np",
     "name": "Chao Baba Freshly Cut Chicken",
     "price": "25-30",
-    "notes": "Aka the knockoff HDL."
+    "notes": "Aka the knockoff HDL. 4 stars cuz it a ripoff",
+    "location": "Beauty World",
+    "type": "Hotpot",
+    "rating": 4
   },
   {
     "campus": "np",
@@ -89,7 +105,11 @@
     "campus": "np",
     "name": "KahHeng Seafood Restaurant",
     "price": "15-20",
-    "type": "Tzechar"
+    "type": "Tzechar",
+    "location": "Beauty World",
+    "notes": "EIG's go to tzechar place. Tak halal tho. Their sambal fried rice and fried rice are damn good. Usual orders we get include prawn paste chicken, curry fish head (if we balling), the fried rice(s), and sambal kangkong (its good).",
+    "rating": 5,
+    "halal": false
   },
   {
     "campus": "np",
