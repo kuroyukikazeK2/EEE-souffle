@@ -6,7 +6,9 @@
     "location": "Bukit Timah Food Centre",
     "type": "Western",
     "maps": "https://maps.app.goo.gl/qvqLfYAZAopTPscU8",
-    "rating": 5
+    "rating": 5,
+    "notes": "Alderic 3 plates certified. Hand pulled fresh pasta, top picks include amatriciana, focaccia with hot honey, and ragu. Tak halal tho.",
+    "halal": false
   },
   {
     "campus": "np",
@@ -108,7 +110,7 @@
   {
     "campus": "np",
     "name": "KahHeng Seafood Restaurant",
-    "price": "15-20",
+    "price": "10-20",
     "type": "Tzechar",
     "location": "Beauty World",
     "notes": "EIG's go to tzechar place. Tak halal tho. Their sambal fried rice and fried rice are damn good. Usual orders we get include prawn paste chicken, curry fish head (if we balling), the fried rice(s), and sambal kangkong (its good).",
@@ -140,7 +142,7 @@
   {
     "campus": "np",
     "name": "A-Poh Kitchen",
-    "price": "10-15",
+    "price": "10-20",
     "location": "Clementi",
     "type": "Tzechar",
     "notes": "EIG's go to spot for tzechar if need halal. Slightly smaller portion sizes compared to Kah Heng, but its also still damn good. Go to orders include curry fish head (if we balling), prawn paste chicken, fried rice (yea boring orders, but its good), la zi ji, etc.",
