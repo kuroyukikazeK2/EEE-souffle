@@ -139,5 +139,14 @@
     "campus": "ut",
     "name": "Soi 19",
     "price": "5-10"
+  },
+  {
+    "name": "Taste Good 好味小厨",
+    "campus": "other",
+    "price": "5-10",
+    "location": "Sim Lim Square",
+    "type": "Tzechar",
+    "maps": "https://maps.app.goo.gl/DH3c8YuXmGPGwHcx6",
+    "rating": 4
   }
 ]
